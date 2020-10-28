@@ -4,4 +4,3 @@ Generate a palette from an image. The main purpose is for seeing the exact color
 
 ## Setup
 Install dependencies via `pip3 install -r requirements.txt`
-
