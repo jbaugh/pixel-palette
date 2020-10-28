@@ -1,5 +1,6 @@
 import os, sys
 from PIL import Image
+import numpy
 
 def hex_chunk(num):
   s = str(hex(num)).replace('0x', '')
@@ -36,14 +37,40 @@ def print_pixels(pixels):
   for color in pixels:
     print(color + ':' + str(pixels[color]))
 
+def hex_to_pixel(hex_code):
+  return [35, 110, 31, 255]
 
 def generate_image(pixels):
-  array = [
-     [(54, 54, 54), (232, 23, 93), (71, 71, 71), (168, 167, 167)],
-     [(204, 82, 122), (54, 54, 54), (168, 167, 167), (232, 23, 93)],
-     [(71, 71, 71), (168, 167, 167), (54, 54, 54), (204, 82, 122)],
-     [(168, 167, 167), (204, 82, 122), (232, 23, 93), (54, 54, 54)]
-  ]
+  color_left = 1
+  color_right = 10
+  color_top = 1
+  color_bottom = 10
+  color_size = 10
+  padding = 1
+  colors = list(pixels)
+  color = hex_to_pixel(colors[0])
+  arr = []
+  blank_color = [255, 255, 255, 255]
+
+  for y in range(101):
+    row = []
+    for x in range(101):
+      if x >= color_left and x <= color_right:
+        if y >= color_top and y <= color_bottom:
+          row.append(color)
+        else:
+          row.append(blank_color)
+          if len(colors) > 1:
+            colors.pop(0)
+            color = hex_to_pixel(colors[0])
+          else:
+            color = blank_color
+      else:
+        row.append(blank_color)
+
+    arr.append(row)
+
+  array = numpy.array(arr, dtype=numpy.uint8)
   img = Image.fromarray(array)
   img.save('output/test.png')
 
