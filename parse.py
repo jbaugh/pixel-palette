@@ -37,12 +37,13 @@ def print_pixels(pixels):
   for color in pixels:
     print(color + ':' + str(pixels[color]))
 
-# Input is a hexstring like: 0afe331a, and output is the color code
+# Input is a hexstring like: 0afe331a, and output is the color code: [10, 254, 51, 26]
 def hex_to_pixel(hex_code):
   color = [hex_code[i:i+2] for i in range(0, len(hex_code), 2)]
   return [int(color[0], 16), int(color[1], 16), int(color[2], 16), int(color[3], 16)]
 
 def get_color(colors, square_size, num_colors_col, x, y):
+  # Get x/y index, using integer division, to see which 'square' it should be in
   xindex = x // square_size
   yindex = y // square_size
   color_index = xindex + (yindex * num_colors_col)
@@ -52,9 +53,7 @@ def get_color(colors, square_size, num_colors_col, x, y):
   else:
     return hex_to_pixel(colors[color_index])
 
-def generate_image(pixels):
-  square_size = 10
-  num_colors_col = 10
+def generate_image(pixels, square_size=16, num_colors_col = 10):
   image_size = square_size * num_colors_col
   colors = list(pixels)
   arr = []
@@ -73,6 +72,3 @@ def generate_image(pixels):
 pixels = get_pixels('samples/sprite1.png')
 print_pixels(pixels)
 generate_image(pixels)
-
-
-print(hex_to_pixel('0afe331a'))
