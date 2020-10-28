@@ -38,38 +38,31 @@ def print_pixels(pixels):
     print(color + ':' + str(pixels[color]))
 
 def hex_to_pixel(hex_code):
-  return [35, 110, 31, 255]
+  color = [hex_code[i:i+2] for i in range(0, len(hex_code), 2)]
+  return [int(color[0], 16), int(color[1], 16), int(color[2], 16), int(color[3], 16)]
+
+def get_color(colors, square_size, num_colors_col, x, y):
+  xindex = x // square_size
+  yindex = y // square_size
+  color_index = xindex + (yindex * num_colors_col)
+
+
+  if color_index >= len(colors):
+    return [255, 255, 255, 255]
+  else:
+    return hex_to_pixel(colors[color_index])
 
 def generate_image(pixels):
-  color_left = 1
-  color_right = 10
-  color_top = 1
-  color_bottom = 10
-  color_size = 10
-  padding = 1
+  square_size = 10
+  num_colors_col = 10
+  image_size = square_size * num_colors_col
   colors = list(pixels)
-  color = hex_to_pixel(colors[0])
   arr = []
-  blank_color = [255, 255, 255, 255]
 
-  for y in range(101):
+  for y in range(image_size):
     row = []
-    for x in range(101):
-      if x >= color_left and x <= color_right:
-        if y >= color_top and y <= color_bottom:
-          row.append(color)
-        else:
-          row.append(blank_color)
-          if len(colors) > 1:
-            colors.pop(0)
-            color = hex_to_pixel(colors[0])
-            color_top += color_size + padding
-            color_bottom += color_size + padding
-          else:
-            color = blank_color
-      else:
-        row.append(blank_color)
-
+    for x in range(image_size):
+      row.append(get_color(colors, square_size, num_colors_col, x, y))
     arr.append(row)
 
   array = numpy.array(arr, dtype=numpy.uint8)
