@@ -63,6 +63,8 @@ def generate_image(pixels):
           if len(colors) > 1:
             colors.pop(0)
             color = hex_to_pixel(colors[0])
+            color_top += color_size + padding
+            color_bottom += color_size + padding
           else:
             color = blank_color
       else:
