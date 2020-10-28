@@ -37,6 +37,7 @@ def print_pixels(pixels):
   for color in pixels:
     print(color + ':' + str(pixels[color]))
 
+# Input is a hexstring like: 0afe331a, and output is the color code
 def hex_to_pixel(hex_code):
   color = [hex_code[i:i+2] for i in range(0, len(hex_code), 2)]
   return [int(color[0], 16), int(color[1], 16), int(color[2], 16), int(color[3], 16)]
@@ -45,7 +46,6 @@ def get_color(colors, square_size, num_colors_col, x, y):
   xindex = x // square_size
   yindex = y // square_size
   color_index = xindex + (yindex * num_colors_col)
-
 
   if color_index >= len(colors):
     return [255, 255, 255, 255]
@@ -74,3 +74,5 @@ pixels = get_pixels('samples/sprite1.png')
 print_pixels(pixels)
 generate_image(pixels)
 
+
+print(hex_to_pixel('0afe331a'))
