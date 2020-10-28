@@ -7,6 +7,7 @@ def hex_chunk(num):
     s = '0' + s
   return s
 
+
 def pixel_to_rgba(pixel):
   return hex_chunk(pixel[0]) + hex_chunk(pixel[1]) + hex_chunk(pixel[2]) + hex_chunk(pixel[3])
 
@@ -33,12 +34,21 @@ def get_pixels(fpath, ignore_colors = [], ignore_invisible = True):
 
 def print_pixels(pixels):
   for color in pixels:
-    print(color + ":" + str(pixels[color]))
+    print(color + ':' + str(pixels[color]))
+
 
 def generate_image(pixels):
-  cv2.imwrite("output/test.png", [pixels.values()])
+  array = [
+     [(54, 54, 54), (232, 23, 93), (71, 71, 71), (168, 167, 167)],
+     [(204, 82, 122), (54, 54, 54), (168, 167, 167), (232, 23, 93)],
+     [(71, 71, 71), (168, 167, 167), (54, 54, 54), (204, 82, 122)],
+     [(168, 167, 167), (204, 82, 122), (232, 23, 93), (54, 54, 54)]
+  ]
+  img = Image.fromarray(array)
+  img.save('output/test.png')
+
 
 pixels = get_pixels('samples/sprite1.png')
 print_pixels(pixels)
-# generate_image(pixels)
+generate_image(pixels)
 
