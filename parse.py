@@ -1,4 +1,6 @@
 import cv2
+import os, sys
+from PIL import Image
 
 def hex_chunk(num):
   s = str(hex(num)).replace('0x', '')
@@ -23,7 +25,19 @@ def get_pixels(fpath, ignore_colors = []):
             pixels[hex_pixel] += 1
           else:
             pixels[hex_pixel] = 1
-  return pixels
+
+  # Sort the pixels
+  return {k: v for k, v in reversed(sorted(pixels.items(), key=lambda item: item[1]))}
 
 
-print(get_pixels('samples/sprite1.png'))
+def print_pixels(pixels):
+  for color in pixels:
+    print(color + ":" + str(pixels[color]))
+
+def generate_image(pixels):
+  cv2.imwrite("output/test.png", [pixels.values()]) 
+
+# pixels = get_pixels('samples/sprite1.png')
+# print_pixels(pixels)
+# generate_image(pixels)
+
